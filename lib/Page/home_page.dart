@@ -2,7 +2,6 @@ import 'package:coffeeshop/Page/cart_page.dart';
 import 'package:coffeeshop/component/bottom_nav_bar.dart';
 import 'package:coffeeshop/const.dart';
 import 'package:flutter/material.dart';
-import 'package:coffeeshop/Page/cart_page.dart';
 import 'package:coffeeshop/Page/shop_page.dart';
 import 'package:coffeeshop/Page/profile_page.dart';
 
@@ -23,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Widget> _pages = [
-    ShopPage(), // Ganti dengan halaman yang benar
+    ShopPage(),
     CartPage(),
     ProfilePage()
   ];
@@ -31,9 +30,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: _pages[_selectedIndex],
-      bottomNavigationBar: MyBottomNavBar(
-        onTabChange: navigateBottomBar,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+            ),
+          ],
+        ),
+        child: MyBottomNavBar(
+          onTabChange: navigateBottomBar,
+        ),
       ),
     );
   }
