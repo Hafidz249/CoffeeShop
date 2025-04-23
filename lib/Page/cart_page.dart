@@ -37,10 +37,19 @@ class _CartPageState extends State<CartPage> {
     final double buttonFontSize = screenWidth * 0.045 > 18 ? 18 : screenWidth * 0.045; // Maksimal 18
     final double buttonPadding = screenHeight * 0.025; // 2.5% dari tinggi layar
     
+    // Menghitung padding bottom untuk mencegah konten tertutup navigation bar
+    final bottomNavHeight = 80.0; // Perkiraan tinggi nav bar (bisa disesuaikan)
+    
     return Consumer<CoffeeShop>(
       builder:(context, value, child) => SafeArea(
+        bottom: false, // Abaikan safe area bottom karena kita menangani manual
         child: Padding(
-          padding: EdgeInsets.all(padding),
+          padding: EdgeInsets.fromLTRB(
+            padding, 
+            padding, 
+            padding, 
+            padding + bottomNavHeight
+          ),
           child: Column (
             children: [
               // heading 
@@ -55,6 +64,7 @@ class _CartPageState extends State<CartPage> {
               //list of cart item
               Expanded(
                 child: ListView.builder(
+                  padding: EdgeInsets.only(bottom: 20), // Extra padding di akhir list
                   itemCount: value.userCart.length,
                   itemBuilder: (context, index) {
                     //get individual cart item
