@@ -13,61 +13,78 @@ class CoffeeDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Mendapatkan ukuran layar
+    final screenSize = MediaQuery.of(context).size;
+    final screenWidth = screenSize.width;
+    final screenHeight = screenSize.height;
+    
+    // Ukuran responsif
+    final double padding = screenWidth * 0.04; // 4% dari lebar layar
+    final double imageHeight = screenHeight * 0.3; // 30% dari tinggi layar
+    final double titleFontSize = screenWidth * 0.06 > 24 ? 24 : screenWidth * 0.06; // Maksimal 24
+    final double priceFontSize = screenWidth * 0.05 > 20 ? 20 : screenWidth * 0.05; // Maksimal 20
+    final double descFontSize = screenWidth * 0.04 > 16 ? 16 : screenWidth * 0.04; // Maksimal 16
+    final double buttonFontSize = screenWidth * 0.04 > 16 ? 16 : screenWidth * 0.04; // Maksimal 16
+    final double spaceBetween = screenHeight * 0.02; // 2% dari tinggi layar
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Produk'),
+        title: Text(
+          'Detail Produk',
+          style: TextStyle(fontSize: titleFontSize * 0.8),
+        ),
         backgroundColor: Colors.brown,
       ),
       body: Consumer<CoffeeShop>(builder: (context, coffeeShop, child) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(padding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Product image
               SizedBox(
-                height: 250,
+                height: imageHeight,
                 child: Image.asset(
                   coffee.imagePath,
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: spaceBetween),
 
               // Product name
               Text(
                 coffee.name,
-                style: const TextStyle(
-                  fontSize: 24,
+                style: TextStyle(
+                  fontSize: titleFontSize,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: spaceBetween * 0.5),
 
               // Product price
               Text(
                 'Rp ${coffee.price}',
-                style: const TextStyle(
-                  fontSize: 20,
+                style: TextStyle(
+                  fontSize: priceFontSize,
                   fontWeight: FontWeight.w500,
                   color: Colors.brown,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: spaceBetween),
 
               // Product description
-              const Text(
+              Text(
                 'Deskripsi produk tidak tersedia.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: descFontSize,
                 ),
               ),
-              const Text(
+              Text(
                 'loreem,',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: descFontSize,
                 ),
               ),
 
@@ -90,11 +107,11 @@ class CoffeeDetailPage extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.brown,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: padding),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Tambahkan ke Keranjang',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: buttonFontSize),
                   ),
                 ),
               ),

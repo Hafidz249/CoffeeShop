@@ -18,45 +18,92 @@ class CoffeeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Mendapatkan ukuran layar
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    // Mengatur ukuran berdasarkan ukuran layar
+    final double verticalPadding = screenWidth * 0.05; // 5% dari lebar layar
+    final double horizontalPadding = screenWidth * 0.025; // 2.5% dari lebar layar
+    final double imageSize = screenWidth * 0.15 > 60 ? 60 : screenWidth * 0.15; // Maksimal 60
+    final double fontSize = screenWidth * 0.035 > 14 ? 14 : screenWidth * 0.035; // Maksimal 14
+    final double buttonFontSize = screenWidth * 0.03 > 12 ? 12 : screenWidth * 0.03; // Maksimal 12
+    
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor, // Use the parameter here instead of fixed color
         borderRadius: BorderRadius.circular(12),
       ),
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
-      child: ListTile(
-        title: Text(coffee.name),
-        subtitle: Text('Rp ' + coffee.price),
-        leading: Image.asset(coffee.imagePath),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Detail button
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to detail page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CoffeeDetailPage(coffee: coffee),
+      margin: EdgeInsets.only(bottom: screenWidth * 0.025), // 2.5% dari lebar layar
+      padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+      child: Row(
+        children: [
+          // Gambar
+          SizedBox(
+            width: imageSize,
+            height: imageSize,
+            child: Image.asset(coffee.imagePath, fit: BoxFit.contain),
+          ),
+          SizedBox(width: screenWidth * 0.03), // 3% dari lebar layar
+          
+          // Informasi kopi
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  coffee.name,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFA1887F),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                ),
+                Text(
+                  'Rp ${coffee.price}',
+                  style: TextStyle(fontSize: fontSize * 0.9),
+                ),
+              ],
+            ),
+          ),
+          
+          // Tombol
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Detail button
+              ElevatedButton(
+                onPressed: () {
+                  // Navigate to detail page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CoffeeDetailPage(coffee: coffee),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFA1887F),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.02,
+                    vertical: screenWidth * 0.01,
+                  ),
+                ),
+                child: Text(
+                  'Detail',
+                  style: TextStyle(fontSize: buttonFontSize),
+                ),
               ),
-              child: const Text('Detail'),
-            ),
-            const SizedBox(width: 8),
-            // Add to cart button
-            IconButton(
-              icon: icon,
-              onPressed: onPressed,
-            ),
-          ],
-        ),
+              SizedBox(width: screenWidth * 0.02), // 2% dari lebar layar
+              
+              // Add to cart button
+              IconButton(
+                icon: icon,
+                iconSize: screenWidth * 0.06 > 24 ? 24 : screenWidth * 0.06, // Maksimal 24
+                onPressed: onPressed,
+                padding: EdgeInsets.all(screenWidth * 0.01), // 1% dari lebar layar
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

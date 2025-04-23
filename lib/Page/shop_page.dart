@@ -9,18 +9,30 @@ class ShopPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Mendapatkan ukuran layar
+    final screenSize = MediaQuery.of(context).size;
+    final screenWidth = screenSize.width;
+    
+    // Menentukan ukuran berdasarkan layar
+    final double paddingAll = screenWidth * 0.05; // 5% dari lebar layar
+    final double titleFontSize = screenWidth * 0.06 > 24 ? 24 : screenWidth * 0.06; // Maksimal 24
+    final double spacerHeight = screenWidth * 0.05; // 5% dari lebar layar
+    
     return Consumer<CoffeeShop>(
       builder: (context, value, child) {
         return SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(25.0),
+            padding: EdgeInsets.all(paddingAll),
             child: Column(
               children: [
-                const Text(
+                Text(
                   'Menu Kopi',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: titleFontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                const SizedBox(height: 25),
+                SizedBox(height: spacerHeight),
 
                 // List of coffee
                 Expanded(

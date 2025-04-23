@@ -1,5 +1,5 @@
 import 'package:coffeeshop/Models/coffee_shop.dart';
-import 'package:coffeeshop/Page/Home_Page.dart';
+import 'package:coffeeshop/Page/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
   
@@ -16,11 +16,9 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => CoffeeShop(),
       builder: (context, child) => const MaterialApp(
-        debugShowCheckedModeBanner: false ,
-        home: HomePage(),
-        
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
       ),
-    
     );
   }
 }

@@ -20,60 +20,83 @@ class _CartPageState extends State<CartPage> {
   //pay button tapped
   void payNow(){
     /*
-     fill out yourr payment servis here    
+     fill out your payment service here    
     */
   }
 
   @override
   Widget build(BuildContext context) {
-  return Consumer<CoffeeShop>(
-    builder:(context, value, child) => SafeArea(
-    child: Padding(
-      padding: const EdgeInsets.all(25.0),
-      child: Column (
-        children: [
-         // heading 
-          Text('Your Cart', style: TextStyle(fontSize: 20),
+    // Mendapatkan ukuran layar
+    final screenSize = MediaQuery.of(context).size;
+    final screenWidth = screenSize.width;
+    final screenHeight = screenSize.height;
+    
+    // Ukuran responsif
+    final double padding = screenWidth * 0.05; // 5% dari lebar layar
+    final double titleFontSize = screenWidth * 0.06 > 24 ? 24 : screenWidth * 0.06; // Maksimal 24
+    final double buttonFontSize = screenWidth * 0.045 > 18 ? 18 : screenWidth * 0.045; // Maksimal 18
+    final double buttonPadding = screenHeight * 0.025; // 2.5% dari tinggi layar
+    
+    return Consumer<CoffeeShop>(
+      builder:(context, value, child) => SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(padding),
+          child: Column (
+            children: [
+              // heading 
+              Text(
+                'Your Cart', 
+                style: TextStyle(
+                  fontSize: titleFontSize,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+               
+              //list of cart item
+              Expanded(
+                child: ListView.builder(
+                  itemCount: value.userCart.length,
+                  itemBuilder: (context, index) {
+                    //get individual cart item
+                    Coffee eachCoffee = value.userCart[index];
+
+                    //return coffee tile
+                    return CoffeeTile(
+                      coffee: eachCoffee, 
+                      onPressed: () => removeFromCart(eachCoffee), 
+                      icon: Icon(Icons.delete),
+                    );
+                  },
+                ),
+              ),
+
+              //pay button 
+              GestureDetector(
+                onTap: payNow,
+                child: Container(
+                  padding: EdgeInsets.all(buttonPadding),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.brown,
+                    borderRadius: BorderRadius.circular(12)
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Pay Now", 
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: buttonFontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
-           
-           //list of cart item
-           Expanded(child: ListView.builder(
-            itemCount: value.userCart.length,
-            itemBuilder: (context, index) {
-           //get individual cart item
-           Coffee eachCoffee = value.userCart[index];
-
-
-           //return coffee tile
-           return CoffeeTile(coffee: eachCoffee, onPressed: () => removeFromCart(eachCoffee), icon: Icon(Icons.delete),
-           );
-           },
-           ),
-           ),
-
-            //pay button 
-             GestureDetector(
-              onTap: payNow,
-               child: Container(
-                padding: const EdgeInsets.all(25),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                      color: Colors.brown,
-                      borderRadius: BorderRadius.circular(12)
-                ),
-                child: const Center(
-                  child: Text(
-                    "Pay Now", 
-                    style: TextStyle(color: Colors.white)),
-                ),
-               ),
-             )
-
-          ],
-       ),
-    ),
-   ),
-  );
+        ),
+      ),
+    );
   }
 }
     
